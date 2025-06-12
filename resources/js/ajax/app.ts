@@ -1,14 +1,18 @@
 import axios from 'axios';
 
-window.onload = async () => {
-    const table = document.getElementById('product-list')!;
+window.onload = async (): Promise<void> => {
+    const tableElem = document.getElementById('product-list')!;
+    const totalInventoryElem = document.getElementById('total-inventory')!;
 
     const response = await axios.get('/products');
     const products: Product[] = response.data;
 
+    let totalInventory: number = 0;
+
     for (let i = 0; i < products.length; i++) {
         const product = products[i];
-        table.innerHTML += `
+        totalInventory += product.quantity * product.price;
+        tableElem.innerHTML += `
             <tr>
                 <th>${ product.id }</th>
                 <td>${ product.name }</td>
@@ -22,6 +26,8 @@ window.onload = async () => {
                 </td>
             </tr>
         `;
+
+        totalInventoryElem.innerHTML = `${totalInventory}`;
     }
 }
 

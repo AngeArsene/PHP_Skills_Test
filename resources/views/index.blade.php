@@ -23,7 +23,7 @@
             <tfoot class="table-light fw-bold">
                 <tr>
                     <td colspan="5" class="text-end">Total Inventory Value (USD):</td>
-                    <td>{{ 15 * 15000 }}</td>
+                    <td id="total-inventory"></td>
                     <td></td>
                 </tr>
             </tfoot>

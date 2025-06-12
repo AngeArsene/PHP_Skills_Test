@@ -8,17 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import axios from 'axios';
-// import $ from 'jquery';
-const getProducts = () => __awaiter(void 0, void 0, void 0, function* () {
-    let products = yield axios.get('/products');
-});
 window.onload = () => __awaiter(void 0, void 0, void 0, function* () {
-    const table = document.getElementById('product-list');
+    const tableElem = document.getElementById('product-list');
+    const totalInventoryElem = document.getElementById('total-inventory');
     const response = yield axios.get('/products');
     const products = response.data;
+    let totalInventory = 0;
     for (let i = 0; i < products.length; i++) {
         const product = products[i];
-        table.innerHTML += `
+        totalInventory += product.quantity * product.price;
+        tableElem.innerHTML += `
             <tr>
                 <th>${product.id}</th>
                 <td>${product.name}</td>
@@ -32,6 +31,7 @@ window.onload = () => __awaiter(void 0, void 0, void 0, function* () {
                 </td>
             </tr>
         `;
+        totalInventoryElem.innerHTML = `${totalInventory}`;
     }
 });
 console.log("Ajax script loaded");
