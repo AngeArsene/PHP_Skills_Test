@@ -24,7 +24,7 @@ window.onload = () => __awaiter(void 0, void 0, void 0, function* () {
                 <td>${product.quantity}</td>
                 <td>${product.price}</td>
                 <td>${new Date(product.created_at).toLocaleDateString()}</td>
-                <td>${product.total}</td>
+                <td>${product.quantity * product.price}</td>
                 <td>
                     <a href="" class="btn btn-primary">Edit</a>
                     <button type="submit" class="btn btn-danger">Delete</button>
