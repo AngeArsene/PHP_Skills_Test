@@ -24,11 +24,30 @@ class Products
 
     public function all(): array
     {
+        usort($this->products, function ($a, $b) {
+            return strtotime($a['created_at']) <=> strtotime($b['created_at']);
+        });
+
         return $this->products;
     }
 
-    public function __call($name, $arguments)
+    public function add(array $product): array
     {
+        $this->products[] = array_merge($product, [
+            'id' => count($this->products) + 1, // Simple ID generation
+            'created_at' => date('Y-m-d H:i:s'),
+        ]);
 
+        $this->save();
+
+        return end($this->products);
     }
+
+    private function save(): void
+    {
+        $path = base_path(self::DATA_PATH);
+        file_put_contents($path, json_encode($this->products, JSON_PRETTY_PRINT));
+    }
+
+    public function __call($name, $arguments) {}
 }

@@ -29,7 +29,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $product = $request->validate([
+            'name' => 'required|string|max:255',
+            'quantity' => 'required|integer|min:0',
+            'price' => 'required|numeric|min:0',
+        ]);
+
+        return response()->json($this->products->add($product), 201);
     }
 
     /**
