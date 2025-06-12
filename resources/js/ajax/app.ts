@@ -2,12 +2,14 @@ import axios from 'axios';
 
 window.onload = async (): Promise<void> => {
     const tableElem = document.getElementById('product-list')!;
+    const loadingRowElem = document.getElementById('loading-row')!;
     const totalInventoryElem = document.getElementById('total-inventory')!;
 
     const response = await axios.get('/products');
     const products: Product[] = response.data;
 
     let totalInventory: number = 0;
+    loadingRowElem.remove();
 
     products.map((product: Product) => {
         totalInventory += product.quantity * product.price;

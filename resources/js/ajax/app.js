@@ -10,10 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import axios from 'axios';
 window.onload = () => __awaiter(void 0, void 0, void 0, function* () {
     const tableElem = document.getElementById('product-list');
+    const loadingRowElem = document.getElementById('loading-row');
     const totalInventoryElem = document.getElementById('total-inventory');
+    totalInventoryElem.innerHTML = totalInventoryElem.innerHTML;
     const response = yield axios.get('/products');
     const products = response.data;
     let totalInventory = 0;
+    loadingRowElem.remove();
     products.map((product) => {
         totalInventory += product.quantity * product.price;
         tableElem.innerHTML += `
