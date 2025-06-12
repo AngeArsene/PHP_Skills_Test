@@ -48,7 +48,7 @@ class Products
         $new_product = $this->products[$id - 1];
 
         $product = !empty($new_product) ?
-            array_merge($new_product, $product, ['created_at' => date('Y-m-d H:i:s')]) : null;
+            array_merge($new_product, $product) : null;
 
         if ($product) $this->products[$id - 1] = $product;
 
