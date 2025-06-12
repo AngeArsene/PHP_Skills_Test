@@ -9,8 +9,7 @@ window.onload = async (): Promise<void> => {
 
     let totalInventory: number = 0;
 
-    for (let i = 0; i < products.length; i++) {
-        const product = products[i];
+    products.map((product: Product) => {
         totalInventory += product.quantity * product.price;
         tableElem.innerHTML += `
             <tr>
@@ -28,7 +27,7 @@ window.onload = async (): Promise<void> => {
         `;
 
         totalInventoryElem.innerHTML = `${totalInventory}`;
-    }
+    });
 }
 
 console.log("Ajax script loaded");

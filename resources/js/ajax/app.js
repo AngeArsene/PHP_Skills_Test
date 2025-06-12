@@ -14,8 +14,7 @@ window.onload = () => __awaiter(void 0, void 0, void 0, function* () {
     const response = yield axios.get('/products');
     const products = response.data;
     let totalInventory = 0;
-    for (let i = 0; i < products.length; i++) {
-        const product = products[i];
+    products.map((product) => {
         totalInventory += product.quantity * product.price;
         tableElem.innerHTML += `
             <tr>
@@ -32,6 +31,6 @@ window.onload = () => __awaiter(void 0, void 0, void 0, function* () {
             </tr>
         `;
         totalInventoryElem.innerHTML = `${totalInventory}`;
-    }
+    });
 });
 console.log("Ajax script loaded");
