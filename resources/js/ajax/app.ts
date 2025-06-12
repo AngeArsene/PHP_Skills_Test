@@ -1,1 +1,28 @@
+import axios from 'axios';
+
+window.onload = async () => {
+    const table = document.getElementById('product-list')!;
+
+    const response = await axios.get('/products');
+    const products: Product[] = response.data;
+
+    for (let i = 0; i < products.length; i++) {
+        const product = products[i];
+        table.innerHTML += `
+            <tr>
+                <th>${ product.id }</th>
+                <td>${ product.name }</td>
+                <td>${ product.quantity }</td>
+                <td>${ product.price }</td>
+                <td>${new Date(product.created_at).toLocaleDateString()}</td>
+                <td>${ product.total }</td>
+                <td>
+                    <a href="" class="btn btn-primary">Edit</a>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </td>
+            </tr>
+        `;
+    }
+}
+
 console.log("Ajax script loaded");
