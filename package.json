@@ -3,7 +3,8 @@
     "type": "module",
     "scripts": {
         "build": "tsc && vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "watch": "tsc --watch"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",
