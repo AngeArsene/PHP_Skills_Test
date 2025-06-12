@@ -12,27 +12,21 @@
                 <th scope="col">Product ID</th>
                 <th scope="col">Product Name</th>
                 <th scope="col">Quantity in stock</th>
-                <th scope="col">Price per item</th>
+                <th scope="col">Price per item (USD)</th>
                 <th scope="col">Datetime Submitted</th>
+                <th scope="col">Total Value (USD)</th>
                 <th scope="col">Action</th>
             </thead>
-            <tbody>
-                <tr>
-                    <th>{{ 1 }}</th>
-                    <td>{{ 'Gaz Oven' }}</td>
-                    <td>{{ 15 }}</td>
-                    <td>{{ '$' . 15000 }}</td>
-                    <td>{{ date('y-m-d H:i:s') }}</td>
-                    <td>
-                        <a href="" class="btn btn-primary">Edit</a>
-                        <form action="" method="POST" onsubmit="return confirm('Are you sure you want to delete this customer?')" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </td>
-                </tr>
+            <tbody id="product-list">
+
             </tbody>
+            <tfoot class="table-light fw-bold">
+                <tr>
+                    <td colspan="5" class="text-end">Total Inventory Value (USD):</td>
+                    <td>{{ 15 * 15000 }}</td>
+                    <td></td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 @endsection
