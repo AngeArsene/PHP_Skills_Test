@@ -39,14 +39,6 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
@@ -58,13 +50,5 @@ class ProductController extends Controller
         ]);
 
         return response()->json($this->products->update($id, $product));
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }
