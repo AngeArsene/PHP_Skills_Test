@@ -7,14 +7,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var _a;
 import axios from 'axios';
 import { Modal } from 'bootstrap'; // Bootstrap will now be available globally
 const tableElem = document.getElementById('product-list');
 const alertBoxElem = document.getElementById('alert');
 const alertMessageElem = document.getElementById('alert-message');
+const totalInventoryElem = document.getElementById('total-inventory');
 window.onload = () => __awaiter(void 0, void 0, void 0, function* () {
     const loadingRowElem = document.getElementById('loading-row');
-    const totalInventoryElem = document.getElementById('total-inventory');
     const response = yield axios.get('/products');
     const products = response.data;
     let totalInventory = 0;
@@ -32,11 +33,13 @@ formElem.onsubmit = (event) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield axios.post('/products', formData);
         tableElem.innerHTML += formatTableRow(response.data);
+        totalInventoryElem.innerHTML = `
+            ${Number(totalInventoryElem.innerHTML) +
+            response.data.quantity * response.data.price}`;
     }
     catch (error) {
         alertBoxElem.style.display = 'block';
         alertMessageElem.innerHTML = 'Error submitting form. Please try again.';
-        removeModalForm();
     }
     removeModalForm();
     formElem.reset();
@@ -70,4 +73,14 @@ const formatTableRow = (product) => {
         </tr>
     `;
 };
+(_a = document.getElementById('createCustomerForm')) === null || _a === void 0 ? void 0 : _a.addEventListener('submit', () => {
+    const saveButton = document.getElementById('saveButton');
+    const saveText = document.getElementById('saveText');
+    const saveSpinner = document.getElementById('saveSpinner');
+    // Disable the button to prevent multiple submissions
+    saveButton.disabled = true;
+    // Show the spinner
+    saveSpinner.classList.remove('d-none');
+    saveText.textContent = 'Saving...';
+});
 console.log("Ajax script loaded");

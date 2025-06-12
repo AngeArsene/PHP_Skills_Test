@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { Modal } from 'bootstrap'; // Bootstrap will now be available globally
 
-const tableElem        = document.getElementById('product-list')!;
-const alertBoxElem     = document.getElementById('alert')!;
+const tableElem = document.getElementById('product-list')!;
+const alertBoxElem = document.getElementById('alert')!;
 const alertMessageElem = document.getElementById('alert-message')!;
+const totalInventoryElem = document.getElementById('total-inventory')!;
 
 window.onload = async () => {
     const loadingRowElem = document.getElementById('loading-row')!;
-    const totalInventoryElem = document.getElementById('total-inventory')!;
 
     const response = await axios.get('/products');
     const products: Product[] = response.data;
@@ -32,6 +32,10 @@ formElem.onsubmit = async (event: Event) => {
     try {
         const response = await axios.post('/products', formData);
         tableElem.innerHTML += formatTableRow(response.data);
+
+        totalInventoryElem.innerHTML = `
+            ${Number(totalInventoryElem.innerHTML) +
+            response.data.quantity * response.data.price}`;
     } catch (error) {
         alertBoxElem.style.display = 'block';
         alertMessageElem.innerHTML = 'Error submitting form. Please try again.';
@@ -60,12 +64,12 @@ const removeModalForm = (): void => {
 const formatTableRow = (product: Product): string => {
     return `
         <tr>
-            <th>${ product.id }</th>
-            <td>${ product.name }</td>
-            <td>${ product.quantity }</td>
-            <td>${ product.price }</td>
+            <th>${product.id}</th>
+            <td>${product.name}</td>
+            <td>${product.quantity}</td>
+            <td>${product.price}</td>
             <td>${new Date(product.created_at).toLocaleDateString()}</td>
-            <td>${ product.quantity * product.price }</td>
+            <td>${product.quantity * product.price}</td>
             <td>
                 <a href="" class="btn btn-primary">Edit</a>
                 <button type="submit" class="btn btn-danger">Delete</button>
@@ -73,5 +77,18 @@ const formatTableRow = (product: Product): string => {
         </tr>
     `;
 }
+
+document.getElementById('createCustomerForm')?.addEventListener('submit', () => {
+    const saveButton = document.getElementById('saveButton')! as HTMLButtonElement;
+    const saveText = document.getElementById('saveText')!;
+    const saveSpinner = document.getElementById('saveSpinner')!;
+
+    // Disable the button to prevent multiple submissions
+    saveButton.disabled = true;
+
+    // Show the spinner
+    saveSpinner.classList.remove('d-none');
+    saveText.textContent = 'Saving...';
+});
 
 console.log("Ajax script loaded");
