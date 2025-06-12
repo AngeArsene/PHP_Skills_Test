@@ -43,6 +43,20 @@ class Products
         return end($this->products);
     }
 
+    public function update(string $id, array $product): ?array
+    {
+        $new_product = $this->products[$id - 1];
+
+        $product = !empty($new_product) ?
+            array_merge($new_product, $product, ['created_at' => date('Y-m-d H:i:s')]) : null;
+
+        if ($product) $this->products[$id - 1] = $product;
+
+        $this->save();
+
+        return $product;
+    }
+
     private function save(): void
     {
         $path = base_path(self::DATA_PATH);

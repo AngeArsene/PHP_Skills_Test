@@ -22,6 +22,36 @@ window.onload = async () => {
         totalInventoryElem.innerHTML = `${totalInventory}`;
 
         document.body.insertAdjacentHTML('beforeend', editModalForm(product));
+        const editFormElem = document.getElementById(`createCustomerForm${product.id}`) as HTMLFormElement;
+
+        editFormElem.onsubmit = async (event: Event): Promise<void> => {
+            event.preventDefault();
+
+            const formData = new FormData(editFormElem);
+            const payload = Object.fromEntries(formData.entries());
+
+            // 🧠 Extract product ID from form ID
+            const productId = editFormElem.id.replace("createCustomerForm", "");
+
+            try {
+                const response = await axios.put(`/products/${productId}`, payload);
+                const product: Product = response.data;
+
+                // Update the table row
+                const rowElem = document.querySelector(`#product-list tr:nth-child(${product.id})`);
+                if (rowElem) {
+                    rowElem.innerHTML = formatTableRow(product);
+                }
+
+                removeModalForm(productId);
+                location.reload(); // Reload the page to reflect changes
+            } catch (error) {
+                alertBoxElem.style.display = 'block';
+                alertMessageElem.innerHTML = 'Error updating product. Please try again.';
+            }
+
+            removeModalForm();
+        };
     });
 }
 
@@ -49,9 +79,9 @@ formElem.onsubmit = async (event: Event) => {
 
 }
 
-const removeModalForm = (): void => {
+const removeModalForm = (id: string | null = null): void => {
     // ✅ Close the modal
-    const modalEl = document.getElementById('staticBackdrop');
+    const modalEl = document.getElementById('staticBackdrop' + (id || ''));
     const modal = Modal.getInstance(modalEl!); // ✅ use existing instance only
     modal?.hide(); // Will clean up backdrop & re-enable scrolling
 
@@ -75,9 +105,8 @@ const formatTableRow = (product: Product): string => {
             <td>${product.quantity * product.price}</td>
             <td>
                 <button type="button" display="inline-block" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop${product.id}">
-                    Edit
+                    Edit Product
                 </button>
-                <button type="submit" class="btn btn-danger">Delete</button>
             </td>
         </tr>
     `;
@@ -99,7 +128,7 @@ document.getElementById('createCustomerForm')?.addEventListener('submit', () => 
 const editModalForm = (product: Product): string => {
     return `
         <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop${product.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        <div class="modal fade edit-modal" id="staticBackdrop${product.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <form class="modal-content" action="" method="POST" id="createCustomerForm${product.id}">

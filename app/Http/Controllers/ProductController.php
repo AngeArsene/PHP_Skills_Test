@@ -51,7 +51,13 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $product = $request->validate([
+            'name' => 'required|string|max:255',
+            'quantity' => 'required|integer|min:0',
+            'price' => 'required|numeric|min:0',
+        ]);
+
+        return response()->json($this->products->update($id, $product));
     }
 
     /**
