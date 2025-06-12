@@ -19,8 +19,8 @@
                     <div class="modal-body">
                         <div class="row mb-3">
                             <div class="col">
-                                <label for="product_name" class="form-label">Product Name</label>
-                                <input type="text" class="form-control" id="product_name" name="product_name" required>
+                                <label for="name" class="form-label">Product Name</label>
+                                <input type="text" class="form-control" id="product_name" name="name" required>
                             </div>
                             <div class="col">
                                 <label for="quantity" class="form-label">Quantity in stock</label>
