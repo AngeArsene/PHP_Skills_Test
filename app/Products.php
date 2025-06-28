@@ -91,7 +91,7 @@ class Products
             $this->products[$id - 1] = array_merge($up_product, $product);
             $product = array_merge($up_product, $product);
 
-        $this->save();
+            $this->save();
         } else {
             throw new Exception("The product id given to update was not found.", 404);
         }
