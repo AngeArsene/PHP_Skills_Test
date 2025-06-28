@@ -89,7 +89,7 @@ class Products
 
         if (!empty($up_product)) {
             $this->products[$id - 1] = array_merge($up_product, $product);
-            $product = array_merge($up_product, $product);
+            $product = $this->products[$id - 1];
 
             $this->save();
         } else {

@@ -11,8 +11,10 @@ export const formatTableRow = (product: Product): string => `
         <td>${product.quantity * product.price}</td>
         <td>
             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop${product.id}">
-                Edit Product
+                Edit
             </button>
+
+            <a href="">Delete</a>
         </td>
     </tr>
 `;
