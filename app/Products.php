@@ -25,7 +25,7 @@ class Products
      *
      * @var string
      */
-    public const DATA_PATH = 'database/products.json';
+    public static $DATA_PATH = 'database/products.json';
 
     /**
      * Products constructor.
@@ -37,7 +37,8 @@ class Products
      */
     public function __construct(?string $path = null)
     {
-        $path = base_path($path ?? self::DATA_PATH);
+        self::$DATA_PATH = $path ?? self::$DATA_PATH;
+        $path = base_path(self::$DATA_PATH);
 
         if (!file_exists($path)) {
             file_put_contents($path, json_encode([], true));
@@ -108,7 +109,7 @@ class Products
      */
     private function save(): void
     {
-        $path = base_path(self::DATA_PATH);
+        $path = base_path(self::$DATA_PATH);
         file_put_contents($path, json_encode($this->products, JSON_PRETTY_PRINT));
     }
 }
