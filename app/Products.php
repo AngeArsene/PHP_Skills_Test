@@ -64,14 +64,14 @@ class Products
      */
     public function add(array $product): array
     {
-        $this->products[] = array_merge($product, [
+        $this->products[] = $product = array_merge($product, [
             'id' => count($this->products) + 1, // Simple ID generation
             'created_at' => date('Y-m-d H:i:s'),
         ]);
 
         $this->save();
 
-        return end($this->products);
+        return $product;
     }
 
     /**
