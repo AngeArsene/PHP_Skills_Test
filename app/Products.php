@@ -102,6 +102,15 @@ class Products
         return $product;
     }
 
+    public function delete(string $id): void
+    {
+        unset($this->products[$id - 1]);
+
+        // coming soon
+
+        $this->save();
+    }
+
     /**
      * Save the current products array to the JSON file.
      *

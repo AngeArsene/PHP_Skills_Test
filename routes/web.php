@@ -5,4 +5,4 @@ use App\Http\Controllers\ProductController;
 
 Route::view('/', 'index');
 
-Route::apiResource('products', ProductController::class)->except(['delete', 'show']);
+Route::apiResource('products', ProductController::class)->except(['show']);
