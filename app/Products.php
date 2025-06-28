@@ -83,14 +83,16 @@ class Products
      */
     public function update(string $id, array $product): ?array
     {
-        $new_product = $this->products[$id - 1];
+        $up_product = $this->products[$id - 1];
 
-        $product = !empty($new_product) ?
-            array_merge($new_product, $product) : null;
-
-        if ($product) $this->products[$id - 1] = $product;
+        if (!empty($up_product)) {
+            $this->products[$id - 1] = array_merge($up_product, $product);
+            $product = array_merge($up_product, $product);
 
         $this->save();
+        } else {
+            throw new Exception("The product id given to update was not found.", 404);
+        }
 
         return $product;
     }
