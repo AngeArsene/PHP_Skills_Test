@@ -31,11 +31,13 @@ class Products
      * Products constructor.
      * Initializes the products collection by reading from a JSON file.
      *
+     * @param array|null $path
+     *
      * @throws \Exception If unable to read or write the products data file.
      */
-    public function __construct()
+    public function __construct(?string $path = null)
     {
-        $path = base_path(self::DATA_PATH);
+        $path = base_path($path ?? self::DATA_PATH);
 
         if (!file_exists($path)) {
             file_put_contents($path, json_encode([], true));
