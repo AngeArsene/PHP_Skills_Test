@@ -14,7 +14,7 @@ export const formatTableRow = (product: Product): string => `
                 Edit
             </button>
 
-            <a href="">Delete</a>
+            <a href="" class="btn btn-danger">Delete</a>
         </td>
     </tr>
 `;
