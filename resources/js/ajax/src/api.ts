@@ -11,7 +11,11 @@ export const createProduct = async (formData: FormData): Promise<Product> => {
     return response.data;
 };
 
-export const updateProduct = async (id: string, data: Record<string, any>): Promise<Product> => {
+export const updateProduct = async (id: number, data: Record<string, any>): Promise<Product> => {
     const response = await axios.put(`/products/${id}`, data) as { data: Product };
     return response.data;
+};
+
+export const deleteProduct = async (id: number): Promise<void> => {
+    await axios.delete(`/products/${id}`);
 };

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
@@ -50,5 +50,15 @@ class ProductController extends Controller
         ]);
 
         return response()->json($this->products->update($id, $product));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $this->products->delete($id);
+
+        return response()->json(null, 204);
     }
 }

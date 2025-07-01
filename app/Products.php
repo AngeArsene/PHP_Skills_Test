@@ -84,7 +84,9 @@ class Products
      *
      * @param string $id The ID of the product to update.
      * @param array $product The updated product data.
-     * @return array|null The updated product, or null if not found.
+     * @return array The updated product.
+     *
+     * @throws Exception if not found.
      */
     public function update(string $id, array $product): ?array
     {
@@ -102,11 +104,22 @@ class Products
         return $product;
     }
 
+    /**
+     * Delete a product by ID.
+     *
+     * @param string $id The ID of the product to delete.
+     * @return void
+     */
     public function delete(string $id): void
     {
         unset($this->products[$id - 1]);
 
-        // coming soon
+        if ($id != count($this->products)) {
+            // Re-index the array if the deleted product is not the last one
+            for ($i = (int) $id; $i < count($this->products); $i++) {
+                --$this->products[$i]['id'];
+            }
+        }
 
         $this->save();
     }

@@ -13,7 +13,6 @@ export const formatTableRow = (product: Product): string => `
             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop${product.id}">
                 Edit
             </button>
-
             <a href="" class="btn btn-danger">Delete</a>
         </td>
     </tr>

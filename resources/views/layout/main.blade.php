@@ -18,7 +18,7 @@
 
 <body>
     <nav class="navbar navbar-ligth justify-content-center fs-3 mb-5" style="background-color: #00ff5573;">
-        Product's Crud Appllication
+        Product's Crud Application
     </nav>
 
     <div class="container mb-3 alert alert-warning alert-dismissible fade show" role="alert" id="alert-box" style="display: none;">

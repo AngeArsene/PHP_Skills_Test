@@ -37,7 +37,7 @@ export const bindEditForm = (product: Product): void => {
         const payload = Object.fromEntries(formData.entries());
 
         try {
-            const updated = await updateProduct(product.id.toString(), payload);
+            const updated = await updateProduct(product.id, payload);
             const row = document.querySelector(`#product-list tr:nth-child(${updated.id})`);
 
             if (row) row.innerHTML = formatTableRow(updated);
