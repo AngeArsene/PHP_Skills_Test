@@ -22,6 +22,7 @@ class ProductsTest extends TestCase
         $products_json_content = json_decode(file_get_contents(self::$DATA_PATH), true);
 
         $this->assertSame([], $products_json_content);
+        $this->assertSame([], $this->products->all());
     }
 
     protected function tearDown(): void
