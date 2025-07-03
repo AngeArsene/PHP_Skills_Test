@@ -25,13 +25,13 @@ class Products
      *
      * @var string
      */
-    public static $DATA_PATH = 'database/products.json';
+    public static string $DATA_PATH = 'database/products.json';
 
     /**
      * Products constructor.
      * Initializes the products collection by reading from a JSON file.
      *
-     * @param array|null $path
+     * @param string|null $path
      *
      * @throws \Exception If unable to read or write the products data file.
      */
@@ -41,6 +41,7 @@ class Products
         $path = base_path(self::$DATA_PATH);
 
         if (!file_exists($path)) {
+            mkdir(dirname($path), 0755, true);
             file_put_contents($path, json_encode([], true));
         }
 
