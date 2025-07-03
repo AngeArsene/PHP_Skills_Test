@@ -20,3 +20,6 @@ export const updateProduct = (id, data) => __awaiter(void 0, void 0, void 0, fun
     const response = yield axios.put(`/products/${id}`, data);
     return response.data;
 });
+export const deleteProduct = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    yield axios.delete(`/products/${id}`);
+});
