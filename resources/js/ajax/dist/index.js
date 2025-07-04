@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { fetchProducts } from './api';
-import { editModalForm, formatTableRow } from './ui';
+import { deleteModalForm, editModalForm, formatTableRow } from './ui';
 import { bindEditForm, bindCreateForm } from './events';
 import { tableElem, totalInventoryElem } from './dom';
 window.onload = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -21,6 +21,7 @@ window.onload = () => __awaiter(void 0, void 0, void 0, function* () {
         tableElem.innerHTML += formatTableRow(product);
         totalInventoryElem.innerHTML = `${totalInventory}`;
         document.body.insertAdjacentHTML('beforeend', editModalForm(product));
+        document.body.insertAdjacentHTML('beforeend', deleteModalForm(product.id));
         bindEditForm(product);
     });
     bindCreateForm();

@@ -1,6 +1,6 @@
 import { Product } from '../../types/index';
 import { createProduct, updateProduct } from './api';
-import { editModalForm, formatTableRow, removeModalForm } from './ui';
+import { deleteModalForm, editModalForm, formatTableRow, removeModalForm } from './ui';
 import { tableElem, totalInventoryElem, alertBoxElem, alertMessageElem } from './dom';
 
 export const bindCreateForm = (): void => {
@@ -19,6 +19,7 @@ export const bindCreateForm = (): void => {
             removeModalForm();
             form.reset();
             document.body.insertAdjacentHTML('beforeend', editModalForm(product));
+            document.body.insertAdjacentHTML('beforeend', deleteModalForm(product.id));
             bindEditForm(product);
         } catch (err) {
             alertBoxElem.style.display = 'block';

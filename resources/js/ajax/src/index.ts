@@ -1,5 +1,5 @@
 import { fetchProducts } from './api';
-import { editModalForm, formatTableRow } from './ui';
+import { deleteModalForm, editModalForm, formatTableRow } from './ui';
 import { bindEditForm, bindCreateForm } from './events';
 import { tableElem, totalInventoryElem } from './dom';
 import { Product } from '../../types/index';
@@ -17,6 +17,7 @@ window.onload = async () => {
         totalInventoryElem.innerHTML = `${totalInventory}`;
 
         document.body.insertAdjacentHTML('beforeend', editModalForm(product));
+        document.body.insertAdjacentHTML('beforeend', deleteModalForm(product.id));
         bindEditForm(product);
     });
 

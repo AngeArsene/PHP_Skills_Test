@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { createProduct, updateProduct } from './api';
-import { editModalForm, formatTableRow, removeModalForm } from './ui';
+import { deleteModalForm, editModalForm, formatTableRow, removeModalForm } from './ui';
 import { tableElem, totalInventoryElem, alertBoxElem, alertMessageElem } from './dom';
 export const bindCreateForm = () => {
     const form = document.getElementById('createCustomerForm');
@@ -23,6 +23,7 @@ export const bindCreateForm = () => {
             removeModalForm();
             form.reset();
             document.body.insertAdjacentHTML('beforeend', editModalForm(product));
+            document.body.insertAdjacentHTML('beforeend', deleteModalForm(product.id));
             bindEditForm(product);
         }
         catch (err) {
