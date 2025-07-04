@@ -1,5 +1,5 @@
 import { Product } from '../../types/index';
-import { createProduct, updateProduct } from './api';
+import { createProduct, deleteProduct, updateProduct } from './api';
 import { deleteModalForm, editModalForm, formatTableRow, removeModalForm } from './ui';
 import { tableElem, totalInventoryElem, alertBoxElem, alertMessageElem } from './dom';
 
@@ -21,6 +21,7 @@ export const bindCreateForm = (): void => {
             document.body.insertAdjacentHTML('beforeend', editModalForm(product));
             document.body.insertAdjacentHTML('beforeend', deleteModalForm(product.id));
             bindEditForm(product);
+            bindDeleteForm(product);
         } catch (err) {
             alertBoxElem.style.display = 'block';
             alertMessageElem.innerHTML = 'Error submitting form. Please try again.';
@@ -32,7 +33,7 @@ export const bindEditForm = (product: Product): void => {
     const form = document.getElementById(`createCustomerForm${product.id}`) as HTMLFormElement;
     form.onsubmit = async (e) => {
         e.preventDefault();
-        showSpinner(product.id.toString());
+        showSpinner('createCustomerForm', product.id.toString());
 
         const formData = new FormData(form);
         const payload = Object.fromEntries(formData.entries());
@@ -51,16 +52,34 @@ export const bindEditForm = (product: Product): void => {
     };
 };
 
-export const showSpinner = (id: string | null = null) => {
-    const form = document.getElementById('createCustomerForm' + (id || '')) as HTMLFormElement;
+export const bindDeleteForm = (product: Product): void => {
+    const form = document.getElementById(`DeleteModalForm${product.id}`) as HTMLFormElement;
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        showSpinner('DeleteModalForm', product.id.toString());
+
+        try {
+            const updated = await deleteProduct(product.id);
+            const row = document.querySelector(`#product-list tr:nth-child(${product.id})`);
+
+            if (row) row.innerHTML = formatTableRow(updated);
+            removeModalForm(product.id.toString());
+            location.reload(); // Reload to ensure all data is up-to-date
+        } catch (err) {
+            alertBoxElem.style.display = 'block';
+            alertMessageElem.innerHTML = 'Error updating product. Please try again.';
+        }
+    };
+};
+
+export const showSpinner = (class_name: string|null = null, id: string|null = null) => {
+    const selector = class_name || 'createCustomerForm';
+    const form = document.getElementById(selector + (id || '')) as HTMLFormElement;
     const submitButton = form.querySelector('button[type="submit"]');
     const saveText = submitButton?.querySelector('span') as HTMLSpanElement;
     const saveSpinner = submitButton?.querySelectorAll('span')[1] as HTMLSpanElement;
 
-    const modalForm = document.getElementById('createCustomerForm' + (id || '')) as HTMLElement;
     const saveButton = document.getElementById('saveButton')! as HTMLButtonElement;
-    // const saveText = document.getElementById('saveText')!;
-    // const saveSpinner = document.getElementById('saveSpinner')!;
 
     // Disable the button to prevent multiple submissions
     saveButton.disabled = true;

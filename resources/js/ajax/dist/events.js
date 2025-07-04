@@ -36,7 +36,7 @@ export const bindEditForm = (product) => {
     const form = document.getElementById(`createCustomerForm${product.id}`);
     form.onsubmit = (e) => __awaiter(void 0, void 0, void 0, function* () {
         e.preventDefault();
-        showSpinner(product.id.toString());
+        showSpinner('createCustomerForm', product.id.toString());
         const formData = new FormData(form);
         const payload = Object.fromEntries(formData.entries());
         try {
@@ -53,15 +53,34 @@ export const bindEditForm = (product) => {
         }
     });
 };
-export const showSpinner = (id = null) => {
-    const form = document.getElementById('createCustomerForm' + (id || ''));
+export const bindDeleteForm = (product) => {
+    const form = document.getElementById(`DeleteModalForm${product.id}`);
+    form.onsubmit = (e) => __awaiter(void 0, void 0, void 0, function* () {
+        e.preventDefault();
+        showSpinner('DeleteModalForm', product.id.toString());
+        const formData = new FormData(form);
+        const payload = Object.fromEntries(formData.entries());
+        try {
+            const updated = yield updateProduct(product.id, payload);
+            const row = document.querySelector(`#product-list tr:nth-child(${updated.id})`);
+            if (row)
+                row.innerHTML = formatTableRow(updated);
+            removeModalForm(product.id.toString());
+            location.reload(); // Reload to ensure all data is up-to-date
+        }
+        catch (err) {
+            alertBoxElem.style.display = 'block';
+            alertMessageElem.innerHTML = 'Error updating product. Please try again.';
+        }
+    });
+};
+export const showSpinner = (class_name = null, id = null) => {
+    const selector = class_name || 'createCustomerForm';
+    const form = document.getElementById(selector + (id || ''));
     const submitButton = form.querySelector('button[type="submit"]');
     const saveText = submitButton === null || submitButton === void 0 ? void 0 : submitButton.querySelector('span');
     const saveSpinner = submitButton === null || submitButton === void 0 ? void 0 : submitButton.querySelectorAll('span')[1];
-    const modalForm = document.getElementById('createCustomerForm' + (id || ''));
     const saveButton = document.getElementById('saveButton');
-    // const saveText = document.getElementById('saveText')!;
-    // const saveSpinner = document.getElementById('saveSpinner')!;
     // Disable the button to prevent multiple submissions
     saveButton.disabled = true;
     // Show the spinner
