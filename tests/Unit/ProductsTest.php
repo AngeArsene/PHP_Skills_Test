@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use App\Products;
 use Tests\TestCase;
 
-class ProductsTest extends TestCase
+final class ProductsTest extends TestCase
 {
     private Products $products;
 
@@ -23,6 +23,21 @@ class ProductsTest extends TestCase
 
         $this->assertSame([], $products_json_content);
         $this->assertSame([], $this->products->all());
+    }
+
+    public function testThatTheProductsJsonFileIsNotEmptyOnAdd(): void
+    {
+        $product = [
+            'price'    => 23,
+            'name'     => 'Table',
+            'quantity' => 4
+        ];
+
+        $this->products->add($product);
+        $products = $this->products->all();
+
+        $this->assertNotEmpty($products);
+        $this->assertEquals(1, count($products));
     }
 
     protected function tearDown(): void

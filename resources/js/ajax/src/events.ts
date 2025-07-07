@@ -62,7 +62,7 @@ export const bindDeleteForm = (product: Product): void => {
             const updated = await deleteProduct(product.id);
             const row = document.querySelector(`#product-list tr:nth-child(${product.id})`);
 
-            if (row) row.innerHTML = formatTableRow(updated);
+            // if (row) row.innerHTML = formatTableRow(updated);
             removeModalForm(product.id.toString());
             location.reload(); // Reload to ensure all data is up-to-date
         } catch (err) {

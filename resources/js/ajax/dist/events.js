@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { createProduct, updateProduct } from './api';
+import { createProduct, deleteProduct, updateProduct } from './api';
 import { deleteModalForm, editModalForm, formatTableRow, removeModalForm } from './ui';
 import { tableElem, totalInventoryElem, alertBoxElem, alertMessageElem } from './dom';
 export const bindCreateForm = () => {
@@ -25,6 +25,7 @@ export const bindCreateForm = () => {
             document.body.insertAdjacentHTML('beforeend', editModalForm(product));
             document.body.insertAdjacentHTML('beforeend', deleteModalForm(product.id));
             bindEditForm(product);
+            bindDeleteForm(product);
         }
         catch (err) {
             alertBoxElem.style.display = 'block';
@@ -58,13 +59,10 @@ export const bindDeleteForm = (product) => {
     form.onsubmit = (e) => __awaiter(void 0, void 0, void 0, function* () {
         e.preventDefault();
         showSpinner('DeleteModalForm', product.id.toString());
-        const formData = new FormData(form);
-        const payload = Object.fromEntries(formData.entries());
         try {
-            const updated = yield updateProduct(product.id, payload);
-            const row = document.querySelector(`#product-list tr:nth-child(${updated.id})`);
-            if (row)
-                row.innerHTML = formatTableRow(updated);
+            const updated = yield deleteProduct(product.id);
+            const row = document.querySelector(`#product-list tr:nth-child(${product.id})`);
+            // if (row) row.innerHTML = formatTableRow(updated);
             removeModalForm(product.id.toString());
             location.reload(); // Reload to ensure all data is up-to-date
         }
