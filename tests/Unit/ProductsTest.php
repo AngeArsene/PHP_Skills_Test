@@ -21,8 +21,8 @@ final class ProductsTest extends TestCase
     {
         $products_json_content = json_decode(file_get_contents(self::$DATA_PATH), true);
 
-        $this->assertSame([], $products_json_content);
-        $this->assertSame([], $this->products->all());
+        $this->assertEmpty($products_json_content);
+        $this->assertEmpty($this->products->all());
     }
 
     public function testThatTheProductsJsonFileIsNotEmptyOnAdd(): void
