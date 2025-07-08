@@ -3,11 +3,13 @@
 namespace Tests\Unit;
 
 use App\Products;
+use Faker\Factory;
 use Tests\TestCase;
 
 final class ProductsTest extends TestCase
 {
     private Products $products;
+    private $faker;
 
     public static string $DATA_PATH = 'database/test/products.json';
 
@@ -15,6 +17,8 @@ final class ProductsTest extends TestCase
     {
         parent::setUp();
         $this->products = new Products(self::$DATA_PATH);
+        $this->faker = Factory::create();
+
     }
 
     public function testTheProductsJsonFileIsEmpty(): void
@@ -28,9 +32,9 @@ final class ProductsTest extends TestCase
     public function testThatTheProductsJsonFileIsNotEmptyOnAdd(): void
     {
         $product = [
-            'price'    => 23,
-            'name'     => 'Table',
-            'quantity' => 4
+            'price'    => random_int(100, 1000),
+            'name'     => $this->faker->word(),
+            'quantity' => random_int(1, 10),
         ];
 
         $this->products->add($product);
