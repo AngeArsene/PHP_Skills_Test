@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { fetchProducts } from './api';
 import { deleteModalForm, editModalForm, formatTableRow } from './ui';
-import { bindEditForm, bindCreateForm } from './events';
+import { bindEditForm, bindCreateForm, bindDeleteForm } from './events';
 import { tableElem, totalInventoryElem } from './dom';
 window.onload = () => __awaiter(void 0, void 0, void 0, function* () {
     const loadingRow = document.getElementById('loading-row');
@@ -23,6 +23,7 @@ window.onload = () => __awaiter(void 0, void 0, void 0, function* () {
         document.body.insertAdjacentHTML('beforeend', editModalForm(product));
         document.body.insertAdjacentHTML('beforeend', deleteModalForm(product.id));
         bindEditForm(product);
+        bindDeleteForm(product.id);
     });
     bindCreateForm();
 });

@@ -25,7 +25,7 @@ export const bindCreateForm = () => {
             document.body.insertAdjacentHTML('beforeend', editModalForm(product));
             document.body.insertAdjacentHTML('beforeend', deleteModalForm(product.id));
             bindEditForm(product);
-            bindDeleteForm(product);
+            bindDeleteForm(product.id);
         }
         catch (err) {
             alertBoxElem.style.display = 'block';
@@ -54,16 +54,22 @@ export const bindEditForm = (product) => {
         }
     });
 };
-export const bindDeleteForm = (product) => {
-    const form = document.getElementById(`DeleteModalForm${product.id}`);
+export const bindDeleteForm = (id) => {
+    const form = document.getElementById(`DeleteModalForm${id}`);
     form.onsubmit = (e) => __awaiter(void 0, void 0, void 0, function* () {
         e.preventDefault();
-        showSpinner('DeleteModalForm', product.id.toString());
+        showSpinner('DeleteModalForm', id.toString());
         try {
-            const updated = yield deleteProduct(product.id);
-            const row = document.querySelector(`#product-list tr:nth-child(${product.id})`);
-            // if (row) row.innerHTML = formatTableRow(updated);
-            removeModalForm(product.id.toString());
+            const status_code = yield deleteProduct(id);
+            if (status_code !== 204) {
+                alertBoxElem.style.display = 'block';
+                alertMessageElem.innerHTML = 'Error deleting product. Please try again.';
+                return;
+            }
+            const row = document.querySelector(`#product-list tr:nth-child(${id})`);
+            if (row)
+                row.remove();
+            removeModalForm(id.toString());
             location.reload(); // Reload to ensure all data is up-to-date
         }
         catch (err) {

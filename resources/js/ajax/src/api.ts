@@ -16,6 +16,6 @@ export const updateProduct = async (id: number, data: Record<string, any>): Prom
     return response.data;
 };
 
-export const deleteProduct = async (id: number): Promise<void> => {
-    await axios.delete(`/products/${id}`);
+export const deleteProduct = async (id: number): Promise<number> => {
+    return (await axios.delete(`/products/${id}`)).status;
 };

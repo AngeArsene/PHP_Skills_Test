@@ -21,5 +21,5 @@ export const updateProduct = (id, data) => __awaiter(void 0, void 0, void 0, fun
     return response.data;
 });
 export const deleteProduct = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    yield axios.delete(`/products/${id}`);
+    return (yield axios.delete(`/products/${id}`)).status;
 });
