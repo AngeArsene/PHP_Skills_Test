@@ -113,13 +113,17 @@ class Products
      */
     public function delete(string $id): void
     {
+        $id = (int) $id;
+        $length = count($this->products);
         unset($this->products[$id - 1]);
 
-        if ($id != count($this->products)) {
+        if ($id !== $length || $length <= 2) {
             // Re-index the array if the deleted product is not the last one
-            for ($i = (int) $id; $i < count($this->products); $i++) {
+            for ($i = $id; $i < $length; $i++) {
+                // $id = $this->products[$i]['id'];
                 --$this->products[$i]['id'];
             }
+            $this->products = array_values($this->products);
         }
 
         $this->save();
